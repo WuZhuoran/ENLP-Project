@@ -130,7 +130,7 @@ model.add(Dense(5, activation='softmax'))
 model.summary()
 
 learning_rate = 0.0001
-epochs = 60
+epochs = 1
 batch_size = 32  # 32
 sgd = SGD(lr=learning_rate, nesterov=True, momentum=0.7, decay=1e-4)
 Nadam = keras.optimizers.Nadam(lr=0.002, beta_1=0.9, beta_2=0.999, epsilon=1e-08, schedule_decay=0.004)
