@@ -36,7 +36,7 @@ def shuffle_2(a, b):  # Shuffles 2 arrays with the same order
     return a[s], b[s]
 
 
-X_train, Y_train, feature_names = load_train_data('../data/train.tsv')
+X_train, Y_train, feature_names = load_train_data('../data/train_extract.tsv')
 X_test, X_test_PhraseID = load_test_data('../data/test.tsv')
 print('============================== Training data shapes ==============================')
 print('X_train.shape is ', X_train.shape)
@@ -49,7 +49,7 @@ Tokenizer_vocab_size = len(Tokenizer.word_index) + 1
 print("Vocab size", Tokenizer_vocab_size)
 
 # masking
-num_test = 32000
+num_test = 1000
 mask = range(num_test)
 
 Y_Val = Y_train[:num_test]
