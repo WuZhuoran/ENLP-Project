@@ -1,12 +1,11 @@
-from textblob import TextBlob
 import pandas as pd
-import numpy as np
-import xgboost as xgb
 import sklearn
+import xgboost as xgb
 from sklearn.metrics import accuracy_score
+from textblob import TextBlob
 
 
-def load_train_data(path):  # loads data , caluclate Mean & subtract it data, gets the COV. Matrix.
+def load_train_data(path):
     D = pd.read_csv(path, sep='\t', header=0)
 
     D['Sentiment'] = D['Sentiment'].map(lambda x: 0 if x == 0 else x)
@@ -20,6 +19,8 @@ def load_train_data(path):  # loads data , caluclate Mean & subtract it data, ge
 
 X_train = load_train_data('../data/train_extract.tsv')
 
+
+# Feature Engineering
 X_train['text_len'] = X_train['Phrase'].apply(len)
 X_train['Phrase'] = X_train['Phrase'].apply(lambda x: str(x).strip())
 

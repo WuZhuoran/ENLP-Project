@@ -1,15 +1,15 @@
-from keras.optimizers import SGD
-from keras.models import Sequential
-from keras.layers import Embedding
-from keras.layers.core import Dense, Dropout
-from keras.layers.recurrent import LSTM
-from keras.preprocessing import sequence
-from keras.preprocessing.text import Tokenizer
-from keras.constraints import maxnorm
-from keras.callbacks import ModelCheckpoint, ReduceLROnPlateau, EarlyStopping
 import keras
 import numpy as np
 import pandas as pd
+from keras.callbacks import ModelCheckpoint, ReduceLROnPlateau, EarlyStopping
+from keras.constraints import maxnorm
+from keras.layers import Embedding
+from keras.layers.core import Dense, Dropout
+from keras.layers.recurrent import LSTM
+from keras.models import Sequential
+from keras.optimizers import SGD
+from keras.preprocessing import sequence
+from keras.preprocessing.text import Tokenizer
 
 seed = 19960214
 np.random.seed(seed)
@@ -77,32 +77,7 @@ Y_Val = keras.utils.to_categorical(Y_Val, 5)
 
 # shuffling the traing Set
 shuffle_2(X_Train_encodedPadded_words, Y_train)
-'''
-print 'Featu are ',feature_names
-print '============================== After extracting a validation set of '+ str(num_test)+' ============================== '
-print '============================== Training data shapes =============================='
-print 'X_train.shape is ', X_train.shape
-print 'Y_train.shape is ',Y_train.shape
-print '============================== Validation data shapes =============================='
-print 'Y_Val.shape is ',Y_Val.shape
-print 'X_Val.shape is ', X_Val.shape
-print '============================== Test data shape =============================='
-print 'X_test.shape is ', X_test.shape
 
-
-
-
-
-print '============================== After padding all text to same size of '+ str(maxWordCount)+' =============================='
-print '============================== Training data shapes =============================='
-print 'X_train.shape is ', X_train.shape
-print 'Y_train.shape is ',Y_train.shape
-print '============================== Validation data shapes =============================='
-print 'Y_Val.shape is ',Y_Val.shape
-print 'X_Val.shape is ', X_Val.shape
-print '============================== Test data shape =============================='
-print 'X_test.shape is ', X_test.shape
-'''
 # model
 model = Sequential()
 
