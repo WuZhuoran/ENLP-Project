@@ -1,3 +1,5 @@
+import datetime
+
 import keras
 import numpy as np
 import pandas as pd
@@ -13,6 +15,8 @@ from keras.preprocessing.text import Tokenizer
 
 seed = 19960214
 np.random.seed(seed)
+TRAIN_DATA_FILE = 'train_extract.tsv'
+TEST_DATA_FILE = 'test.tsv'
 
 
 def load_train_data(path):  # loads data , caluclate Mean & subtract it data, gets the COV. Matrix.
@@ -36,8 +40,9 @@ def shuffle_2(a, b):  # Shuffles 2 arrays with the same order
     return a[s], b[s]
 
 
-X_train, Y_train, feature_names = load_train_data('../data/train_extract.tsv')
-X_test, X_test_PhraseID = load_test_data('../data/test.tsv')
+X_train, Y_train, feature_names = load_train_data('../data/' + TRAIN_DATA_FILE)
+X_test, X_test_PhraseID = load_test_data('../data/' + TEST_DATA_FILE)
+
 print('============================== Training data shapes ==============================')
 print('X_train.shape is ', X_train.shape)
 print('Y_train.shape is ', Y_train.shape)
@@ -105,7 +110,7 @@ model.add(Dense(5, activation='softmax'))
 model.summary()
 
 learning_rate = 0.0001
-epochs = 1
+epochs = 10
 batch_size = 32  # 32
 sgd = SGD(lr=learning_rate, nesterov=True, momentum=0.7, decay=1e-4)
 Nadam = keras.optimizers.Nadam(lr=0.002, beta_1=0.9, beta_2=0.999, epsilon=1e-08, schedule_decay=0.004)
@@ -130,4 +135,20 @@ history = model.fit(X_Train_encodedPadded_words, Y_train, epochs=epochs, batch_s
 print("=============================== Score =========================================")
 
 scores = model.evaluate(X_Val_encodedPadded_words, Y_Val, verbose=0)
+
+print('LSTM_model_eta_' +
+      str(learning_rate) +
+      '_batch_' +
+      str(batch_size) +
+      '_epochs_' +
+      str(epochs) +
+      '_layers_' +
+      str(3) +
+      '_Embedding_' +
+      'keras.layers.Embedding' +
+      '_NumberTest_' +
+      str(num_test) +
+      '_timestamp_' +
+      str(datetime.datetime.now().strftime("%Y_%m_%d_%H_%M")))
+
 print("Accuracy: %.2f%%" % (scores[1] * 100))
