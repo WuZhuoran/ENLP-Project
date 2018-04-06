@@ -15,7 +15,7 @@ from keras.preprocessing.text import Tokenizer
 
 seed = 19960214
 np.random.seed(seed)
-TRAIN_DATA_FILE = 'train_extract.tsv'
+TRAIN_DATA_FILE = 'train_cleaned.tsv'
 TEST_DATA_FILE = 'test.tsv'
 
 
@@ -110,7 +110,7 @@ model.add(Dense(5, activation='softmax'))
 model.summary()
 
 learning_rate = 0.0001
-epochs = 10
+epochs = 2
 batch_size = 32  # 32
 sgd = SGD(lr=learning_rate, nesterov=True, momentum=0.7, decay=1e-4)
 Nadam = keras.optimizers.Nadam(lr=0.002, beta_1=0.9, beta_2=0.999, epsilon=1e-08, schedule_decay=0.004)

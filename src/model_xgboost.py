@@ -7,7 +7,7 @@ import time
 import datetime
 
 
-TRAIN_DATA_FILE = 'train_extract.tsv'
+TRAIN_DATA_FILE = 'train_cleaned.tsv'
 
 
 def load_train_data(path):
@@ -18,6 +18,8 @@ def load_train_data(path):
     D['Sentiment'] = D['Sentiment'].map(lambda x: 2 if x == 4 else x)
 
     X_train = D[['Phrase', 'Sentiment']]
+    X_train.is_copy = False
+    X_train['Phrase'] = X_train['Phrase'].astype(str)
 
     return X_train
 
@@ -31,14 +33,11 @@ load_time = time.time() - current_time
 print('Time to Load ' + TRAIN_DATA_FILE + ': ' + str(load_time) + 's')
 
 # Feature Engineering
-X_train['text_len'] = X_train['Phrase'].apply(len)
-X_train['Phrase'] = X_train['Phrase'].apply(lambda x: str(x).strip())
-
 X_train['text_blob'] = X_train['Phrase'].map(lambda x: TextBlob(x).sentiment)
 X_train['polarity'] = X_train['text_blob'].map(lambda x: x[0])
 X_train['subjectivity'] = X_train['text_blob'].map(lambda x: x[1])
 
-cols = ['text_len', 'polarity', 'subjectivity']
+cols = ['polarity', 'subjectivity']
 
 current_time = time.time()
 num_round = 2000
