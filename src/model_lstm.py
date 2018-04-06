@@ -23,7 +23,7 @@ def load_train_data(path):  # loads data , caluclate Mean & subtract it data, ge
     D = pd.read_csv(path, sep='\t', header=0)
     feature_names = np.array(list(D.columns.values))
     X_train = np.array(list(D['Phrase']))
-    Y_train = np.array(list(D['Sentiment']));
+    Y_train = np.array(list(D['Sentiment']))
     return X_train, Y_train, feature_names
 
 
