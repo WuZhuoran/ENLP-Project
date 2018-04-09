@@ -1,7 +1,7 @@
 import time
 
-import pandas as pd
 import numpy as np
+import pandas as pd
 from sklearn import metrics
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics import classification_report

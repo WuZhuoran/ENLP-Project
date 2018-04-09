@@ -3,7 +3,6 @@ import datetime
 import keras
 import numpy as np
 import pandas as pd
-from sklearn import metrics
 from keras.callbacks import ModelCheckpoint, ReduceLROnPlateau, EarlyStopping
 from keras.constraints import maxnorm
 from keras.layers import Embedding
@@ -55,7 +54,7 @@ Tokenizer_vocab_size = len(Tokenizer.word_index) + 1
 print("Vocab size", Tokenizer_vocab_size)
 
 # masking
-num_test = 1000
+num_test = int(0.2 * len(X_train))
 mask = range(num_test)
 
 Y_Val = Y_train[:num_test]
@@ -111,7 +110,7 @@ model.add(Dense(5, activation='softmax'))
 model.summary()
 
 learning_rate = 0.0001
-epochs = 1
+epochs = 2
 batch_size = 32  # 32
 sgd = SGD(lr=learning_rate, nesterov=True, momentum=0.7, decay=1e-4)
 Nadam = keras.optimizers.Nadam(lr=0.002, beta_1=0.9, beta_2=0.999, epsilon=1e-08, schedule_decay=0.004)
