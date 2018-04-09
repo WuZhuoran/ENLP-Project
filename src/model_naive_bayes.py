@@ -8,7 +8,7 @@ from sklearn.metrics import classification_report
 from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import *
 
-TRAIN_DATA_FILE = 'train_cleaned.tsv'
+TRAIN_DATA_FILE = 'train_mapped.tsv'
 
 
 def load_train_data(path):
