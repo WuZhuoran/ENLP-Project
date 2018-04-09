@@ -41,7 +41,7 @@ bigram_vectorizer = CountVectorizer(analyzer="word",
                                     tokenizer=None,
                                     preprocessor=None,
                                     stop_words=None,
-                                    ngram_range=(2, 2),
+                                    ngram_range=(1, 3),
                                     strip_accents='unicode')
 
 bigram_feature_matrix_train = bigram_vectorizer.fit_transform(train_X)
@@ -50,7 +50,7 @@ bigram_feature_matrix_test = bigram_vectorizer.transform(test_X)
 bigram_multinomialNB_classifier = MultinomialNB().fit(bigram_feature_matrix_train, train_y)
 bigram_multinomialNB_prediction = bigram_multinomialNB_classifier.predict(bigram_feature_matrix_test)
 
-model = 'Bigram Multinomial Naive Bayes'
+model = 'Unigram-Trigram Multinomial Naive Bayes'
 target_names = ['0', '1', '2']
 
 print(
