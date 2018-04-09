@@ -6,7 +6,7 @@ from sklearn import metrics
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics import classification_report
 from sklearn.model_selection import train_test_split
-from sklearn.naive_bayes import *
+from sklearn.svm import *
 
 TRAIN_DATA_FILE = 'train_cleaned.tsv'
 
@@ -47,10 +47,10 @@ bigram_vectorizer = CountVectorizer(analyzer="word",
 bigram_feature_matrix_train = bigram_vectorizer.fit_transform(train_X)
 bigram_feature_matrix_test = bigram_vectorizer.transform(test_X)
 
-bigram_multinomialNB_classifier = MultinomialNB().fit(bigram_feature_matrix_train, train_y)
-bigram_multinomialNB_prediction = bigram_multinomialNB_classifier.predict(bigram_feature_matrix_test)
+bigram_svm_classifier = LinearSVC().fit(bigram_feature_matrix_train, train_y)
+bigram_svm_prediction = bigram_svm_classifier.predict(bigram_feature_matrix_test)
 
-model = 'Bigram Multinomial Naive Bayes'
+model = 'Bigram MultiClass SVM'
 target_names = ['0', '1', '2']
 
 print(
@@ -61,15 +61,15 @@ print(
     '-------' + '-' * len(model))
 
 print(
-    'Precision = ' + str(metrics.precision_score(test_y, bigram_multinomialNB_prediction, average=None)))
+    'Precision = ' + str(metrics.precision_score(test_y, bigram_svm_prediction, average=None)))
 print(
-    'Recall = ' + str(metrics.recall_score(test_y, bigram_multinomialNB_prediction, average=None)))
+    'Recall = ' + str(metrics.recall_score(test_y, bigram_svm_prediction, average=None)))
 print(
-    'F1 = ' + str(metrics.f1_score(test_y, bigram_multinomialNB_prediction, average=None)))
+    'F1 = ' + str(metrics.f1_score(test_y, bigram_svm_prediction, average=None)))
 print(
-    'Accuracy = %.2f%%' % (metrics.accuracy_score(test_y, bigram_multinomialNB_prediction) * 100.0))
+    'Accuracy = %.2f%%' % (metrics.accuracy_score(test_y, bigram_svm_prediction) * 100.0))
 print(
     'Confusion matrix =  \n' + str(
-        metrics.confusion_matrix(test_y, bigram_multinomialNB_prediction, labels=[0, 1, 2])))
-print('\nClassification Report:\n' + classification_report(test_y, bigram_multinomialNB_prediction,
+        metrics.confusion_matrix(test_y, bigram_svm_prediction, labels=[0, 1, 2])))
+print('\nClassification Report:\n' + classification_report(test_y, bigram_svm_prediction,
                                                            target_names=target_names))

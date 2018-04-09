@@ -3,6 +3,7 @@ import datetime
 import keras
 import numpy as np
 import pandas as pd
+from sklearn import metrics
 from keras.callbacks import ModelCheckpoint, ReduceLROnPlateau, EarlyStopping
 from keras.constraints import maxnorm
 from keras.layers import Embedding
@@ -110,7 +111,7 @@ model.add(Dense(5, activation='softmax'))
 model.summary()
 
 learning_rate = 0.0001
-epochs = 2
+epochs = 1
 batch_size = 32  # 32
 sgd = SGD(lr=learning_rate, nesterov=True, momentum=0.7, decay=1e-4)
 Nadam = keras.optimizers.Nadam(lr=0.002, beta_1=0.9, beta_2=0.999, epsilon=1e-08, schedule_decay=0.004)

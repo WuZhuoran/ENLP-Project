@@ -1,7 +1,8 @@
 import pandas as pd
 import sklearn
 import xgboost as xgb
-from sklearn.metrics import accuracy_score
+from sklearn.metrics import *
+from sklearn import metrics
 from textblob import TextBlob
 import time
 import datetime
@@ -59,6 +60,7 @@ dtrain = xgb.DMatrix(x1, label=y1)
 dvalid = xgb.DMatrix(x2, label=y2)
 
 watchlist = [(dvalid, 'valid'), (dtrain, 'train')]
+target_names = ['0', '1', '2']
 
 model = xgb.train(params, dtrain, num_round, watchlist, verbose_eval=5, early_stopping_rounds=5)
 
@@ -77,6 +79,18 @@ print('XGBoost_model_eta_' +
       '_timestamp_' +
       str(datetime.datetime.now().strftime("%Y_%m_%d_%H_%M")))
 
-print("Accuracy: %.2f%%" % (accuracy * 100.0))
+print(
+    'Precision = ' + str(metrics.precision_score(y2, predictions, average=None)))
+print(
+    'Recall = ' + str(metrics.recall_score(y2, predictions, average=None)))
+print(
+    'F1 = ' + str(metrics.f1_score(y2, predictions, average=None)))
+print(
+    'Accuracy = %.2f%%' % (metrics.accuracy_score(y2, predictions) * 100.0))
+print(
+    'Confusion matrix =  \n' + str(
+        metrics.confusion_matrix(y2, predictions, labels=[0, 1, 2])))
+print('\nClassification Report:\n' + classification_report(y2, predictions,
+                                                           target_names=target_names))
 
 print('Time to Train and Test: ' + str(time.time() - current_time) + 's')
