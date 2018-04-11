@@ -1,6 +1,7 @@
 import logging
 import re
 import warnings
+
 warnings.simplefilter("ignore", UserWarning)
 warnings.simplefilter("ignore", FutureWarning)
 
@@ -42,7 +43,7 @@ context = 10  # Context window size
 downsampling = 1e-3  # Downsample setting for frequent words
 
 # training_model = {"RF", "NB", "SVM", "BT", "no"}
-training_model = "SVM"
+training_model = "RF"
 
 # feature scaling = {"standard", "signed", "unsigned", "no"}
 # Note: Scaling is needed for SVM
@@ -53,6 +54,7 @@ scaling = "no"
 # chi2 is the feature selectioin based on chi2 independence test
 dim_reduce = "chi2"
 num_dim = 500
+
 
 ##################### End of Initialization #####################
 
@@ -180,10 +182,10 @@ def gen_review_vecs(reviews, model, num_features):
     return review_feature_vecs
 
 
-##################### End of Function Definition #####################
+# #################### End of Function Definition #####################
 
 
-########################### Main Program ###########################
+# ########################## Main Program ###########################
 
 train_list = []
 test_list = []
