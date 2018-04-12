@@ -3,10 +3,10 @@ import time
 
 import pandas as pd
 import sklearn
-import xgboost as xgb
 from sklearn import metrics
 from sklearn.metrics import *
 from textblob import TextBlob
+from sklearn.dummy import DummyClassifier
 
 TRAIN_DATA_FILE = 'train_cleaned.tsv'
 
@@ -41,56 +41,27 @@ X_train['subjectivity'] = X_train['text_blob'].map(lambda x: x[1])
 cols = ['polarity', 'subjectivity']
 
 current_time = time.time()
-num_round = 2000
 test_size = 0.2
-
-params = {
-    'eta': 0.002,
-    'objective': 'multi:softmax',
-    'num_class': 3,
-    'max_depth': 6,
-    'eval_metric': 'mlogloss',
-    'seed': 2017,
-    'silent': True
-}
 
 x1, x2, y1, y2 = sklearn.model_selection.train_test_split(X_train[cols], X_train['Sentiment'], test_size=test_size,
                                                           random_state=19960214)
-dtrain = xgb.DMatrix(x1, label=y1)
-dvalid = xgb.DMatrix(x2, label=y2)
 
-watchlist = [(dvalid, 'valid'), (dtrain, 'train')]
 target_names = ['0', '1', '2']
 
-model = xgb.train(params, dtrain, num_round, watchlist, verbose_eval=5, early_stopping_rounds=5)
+model = DummyClassifier(strategy='most_frequent', random_state=0)
+model.fit(x1, y1)
 
-y_pred = model.predict(dvalid)
+y_pred = model.predict(x2)
 predictions = [round(value) for value in y_pred]
 accuracy = accuracy_score(y2, predictions)
 
-print('XGBoost_model_eta_' +
-      str(params['eta']) +
-      '_round_' +
-      str(num_round) +
-      '_NumberFeatures_' +
-      str(len(cols)) +
+print('Major_class_model_eta_' +
       '_TestSize_' +
       str(test_size) +
       '_timestamp_' +
       str(datetime.datetime.now().strftime("%Y_%m_%d_%H_%M")))
 
 print(
-    'Precision = ' + str(metrics.precision_score(y2, predictions, average=None)))
-print(
-    'Recall = ' + str(metrics.recall_score(y2, predictions, average=None)))
-print(
-    'F1 = ' + str(metrics.f1_score(y2, predictions, average=None)))
-print(
     'Accuracy = %.2f%%' % (metrics.accuracy_score(y2, predictions) * 100.0))
-print(
-    'Confusion matrix =  \n' + str(
-        metrics.confusion_matrix(y2, predictions, labels=[0, 1, 2])))
-print('\nClassification Report:\n' + classification_report(y2, predictions,
-                                                           target_names=target_names))
 
 print('Time to Train and Test: ' + str(time.time() - current_time) + 's')

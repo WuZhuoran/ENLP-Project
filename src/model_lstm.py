@@ -54,7 +54,7 @@ Tokenizer_vocab_size = len(Tokenizer.word_index) + 1
 print("Vocab size", Tokenizer_vocab_size)
 
 # masking
-num_test = 1000
+num_test = int(0.2 * len(X_train))
 mask = range(num_test)
 
 Y_Val = Y_train[:num_test]
