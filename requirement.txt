@@ -1,0 +1,11 @@
+pandas
+numpy
+seaborn
+matplotlib
+nltk
+bs4
+gensim
+sklearn
+keras
+textblob
+xgboost
