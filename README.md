@@ -1,5 +1,10 @@
 # ENLP-Project
 
+[Sentiment Analysis on Movie Reviews](https://www.kaggle.com/c/sentiment-analysis-on-movie-reviews), 
+Project for `COSC-572/LING-572 Spring 2018 @ Georgetown University` **[Empirical Methods in Natural Language Processing](http://people.cs.georgetown.edu/cosc572/s18/schedule.html)**
+
+Task: Classify the sentiment of sentences from the Rotten Tomatoes DataSet.
+
 ## Getting Started
 
 ### Requirements
@@ -51,7 +56,7 @@ python src/model_lstm.py
 
 ## Report
 
-[Final Report]() is located at report folder.
+[Final Report](https://github.com/sw1001/ENLP-Project/tree/master/report/related_work) is located at report folder.
 
 ## Authors
 
