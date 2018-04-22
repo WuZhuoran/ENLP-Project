@@ -19,32 +19,32 @@ Requires `Python 3.5` or higher.
 
 ## Usage
 
-Run Everything
+Run Everything - Estimated Running Time:``
 ```bash
 sh run.sh
 ```
 
-Run Data Analysis
+Run Data Analysis - Estimated Running Time: `220.78s`
 ```bash
 python src/data_analysis.py
 ```
 
-Run Majority Baseline Model
+Run Majority Baseline Model - Estimated Running Time: `0.066s`
 ```bash
 python src/model_majority.py
 ```
 
-Run TextBlob Baseline Model
+Run TextBlob Baseline Model - Estimated Running Time: `14.06s`
 ```bash
 python src/model_xgboost.py
 ```
 
-Run Naive Bayes Model
+Run Naive Bayes Model - Estimated Running Time: `2.20s`
 ```bash
 python src/model_naive_bayes.py
 ```
 
-Run SVM Model
+Run SVM Model - Estimated Running Time: `80.70s`+
 ```bash
 python src/model_svm.py
 ```
@@ -52,6 +52,12 @@ python src/model_svm.py
 Run RNN-LSTM Model
 ```bash
 python src/model_lstm.py
+```
+
+Run Multiclass Model - Estimated Running Time: `645.58s`+
+```bash
+python src/model_ensemble_data.py
+python src/model_ensemble.py
 ```
 
 ## Report
