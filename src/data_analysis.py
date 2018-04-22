@@ -1,12 +1,11 @@
-from IPython.display import display, HTML
-
 import logging
-import os
 import re
-import pandas as pd
-import numpy as np # linear algebra
-import seaborn as sn # To get nice plots
+import time
+
 import matplotlib.pyplot as plt
+import numpy as np
+
+current_time = time.time()
 
 logging.basicConfig(format='%(asctime)s %(message)s',
                     datefmt='%d/%m/%Y %H:%M:%S',
@@ -17,8 +16,7 @@ import pandas as pd
 
 
 def _parse(data):
-
-    data['Phrase'] = data['Phrase'].map(lambda x: x.lower()) # Convert all letters to lower case
+    data['Phrase'] = data['Phrase'].map(lambda x: x.lower())  # Convert all letters to lower case
     data['Phrase'] = data['Phrase'].map((lambda x: re.sub(r'[^a-zA-z0-9\s]', '', x)))
 
     return data
@@ -85,3 +83,5 @@ not_in_test = unique_words_train.unique()[~np.in1d(unique_words_train.unique(), 
 
 print('Words in Test but not in Train', not_in_test.shape[0])
 print(unique_words_train[unique_words_train.isin(not_in_test)].value_counts().head(30))
+
+print('EDA Total Time: ' + str(time.time() - current_time))
