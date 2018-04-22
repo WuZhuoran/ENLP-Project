@@ -4,9 +4,9 @@ import time
 import pandas as pd
 import sklearn
 from sklearn import metrics
+from sklearn.dummy import DummyClassifier
 from sklearn.metrics import *
 from textblob import TextBlob
-from sklearn.dummy import DummyClassifier
 
 TRAIN_DATA_FILE = 'train_cleaned.tsv'
 

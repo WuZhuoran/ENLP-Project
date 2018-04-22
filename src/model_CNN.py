@@ -1,17 +1,14 @@
-import datetime
-
 import keras
 import numpy as np
 import pandas as pd
-from sklearn import metrics
-from keras.preprocessing.text import Tokenizer
-from keras.models import Sequential
 from keras.layers import Dense
 from keras.layers import LSTM
-from keras.layers.embeddings import Embedding
 from keras.layers.convolutional import Conv1D
 from keras.layers.convolutional import MaxPooling1D
+from keras.layers.embeddings import Embedding
+from keras.models import Sequential
 from keras.preprocessing import sequence
+from keras.preprocessing.text import Tokenizer
 
 seed = 19960214
 np.random.seed(seed)
@@ -97,5 +94,4 @@ model.fit(X_Train_encodedPadded_words, Y_train, epochs=3, batch_size=32)
 
 # Final evaluation of the model
 scores = model.evaluate(X_Val_encodedPadded_words, Y_Val, verbose=0)
-print("Accuracy: %.2f%%" % (scores[1]*100))
-
+print("Accuracy: %.2f%%" % (scores[1] * 100))

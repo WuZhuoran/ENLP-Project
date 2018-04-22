@@ -1,5 +1,4 @@
 import pandas as pd
-import numpy as np
 
 train = pd.read_csv('../data/train_mapped.tsv', sep='\t', header=0)
 

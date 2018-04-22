@@ -1,23 +1,22 @@
-import os
-import urllib.request
-import nltk
 import csv
+import json
+import os
 import random
-import numpy
 import re
 import time
-import json
-from sklearn.multiclass import OneVsOneClassifier
-from collections import namedtuple
 from collections import defaultdict
-from sklearn.linear_model import SGDClassifier
-from sklearn.neighbors import KNeighborsClassifier
-from sklearn.svm import SVC
+from collections import namedtuple
+
+import nltk
+import numpy
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.feature_extraction.text import CountVectorizer
-from sklearn.pipeline import make_pipeline, make_union
+from sklearn.linear_model import SGDClassifier
 from sklearn.metrics import accuracy_score
-
+from sklearn.multiclass import OneVsOneClassifier
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.pipeline import make_pipeline, make_union
+from sklearn.svm import SVC
 
 DATA_PATH = '../data/'
 Datapoint = namedtuple("Datapoint", "phraseid sentenceid phrase sentiment")
@@ -131,6 +130,7 @@ class StatelessTransform:
     Base class for all transformations that do not depend on training (ie, are
     stateless).
     """
+
     def fit(self, X, y=None):
         return self
 
@@ -140,6 +140,7 @@ class ExtractText(StatelessTransform):
     This should be the first transformation on a samr pipeline, it extracts
     the phrase text from the richer `Datapoint` class.
     """
+
     def __init__(self, lowercase=False):
         self.lowercase = lowercase
 
@@ -187,6 +188,7 @@ class MapToSynsets(StatelessTransform):
     than the sparser (often poetical) words used for the reviews.
     [0] For example "bank": http://wordnetweb.princeton.edu/perl/webwn?s=bank
     """
+
     def transform(self, X):
         """
         `X` is expected to be a list of `str` instances.
@@ -210,6 +212,7 @@ class Densifier(StatelessTransform):
     """
     A transformation that densifies an scipy sparse matrix into a numpy ndarray
     """
+
     def transform(self, X, y=None):
         """
         `X` is expected to be a scipy sparse matrix.
@@ -228,6 +231,7 @@ class ClassifierOvOAsFeatures:
     It's useful to reduce the dimension bag-of-words feature-set into features
     that are richer in information.
     """
+
     def fit(self, X, y):
         """
         `X` is expected to be an array-like or a sparse matrix.
@@ -351,6 +355,7 @@ class PhraseSentimentPredictor:
           as dictated by the Harvard Inquirer sentiment lexicon
     Optionally, during prediction, it also checks for exact duplicates between
     the training set and the train set.    """
+
     def __init__(self, classifier="sgd", classifier_args=None, lowercase=True,
                  text_replacements=None, map_to_synsets=False, binary=False,
                  min_df=0, ngram=1, stopwords=None, limit_train=None,

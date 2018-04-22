@@ -14,7 +14,6 @@ from keras.optimizers import SGD
 from keras.preprocessing import sequence
 from keras.preprocessing.text import Tokenizer
 
-
 current_time = time.time()
 seed = 19960214
 np.random.seed(seed)

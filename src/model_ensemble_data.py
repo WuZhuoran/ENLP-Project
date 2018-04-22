@@ -1,7 +1,7 @@
 import os
 import urllib.request
-import nltk
 
+import nltk
 
 DATA_PATH = '../data/'
 
