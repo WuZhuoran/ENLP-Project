@@ -41,7 +41,7 @@ bigram_vectorizer = CountVectorizer(analyzer="word",
                                     tokenizer=None,
                                     preprocessor=None,
                                     stop_words=None,
-                                    ngram_range=(1, 3),
+                                    ngram_range=(1, 1),
                                     strip_accents='unicode')
 
 bigram_feature_matrix_train = bigram_vectorizer.fit_transform(train_X)
@@ -73,3 +73,4 @@ print(
         metrics.confusion_matrix(test_y, bigram_multinomialNB_prediction, labels=[0, 1, 2])))
 print('\nClassification Report:\n' + classification_report(test_y, bigram_multinomialNB_prediction,
                                                            target_names=target_names))
+print('Time to Train and Test: ' + str(time.time() - current_time) + 's')

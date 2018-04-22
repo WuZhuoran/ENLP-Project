@@ -8,7 +8,7 @@ from sklearn.metrics import classification_report
 from sklearn.model_selection import train_test_split
 from sklearn.svm import *
 
-TRAIN_DATA_FILE = 'train_cleaned.tsv'
+TRAIN_DATA_FILE = 'train_mapped.tsv'
 
 
 def load_train_data(path):
@@ -73,3 +73,4 @@ print(
         metrics.confusion_matrix(test_y, bigram_svm_prediction, labels=[0, 1, 2])))
 print('\nClassification Report:\n' + classification_report(test_y, bigram_svm_prediction,
                                                            target_names=target_names))
+print('Time to Train and Test: ' + str(time.time() - current_time) + 's')

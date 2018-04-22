@@ -192,7 +192,7 @@ test_list = []
 word2vec_input = []
 pred = []
 
-train_data = pd.read_csv("../data/train_extract.tsv", header=0, delimiter="\t", quoting=0)
+train_data = pd.read_csv("../data/train_mapped.tsv", header=0, delimiter="\t", quoting=0)
 test_data = pd.read_csv("../data/test.tsv", header=0, delimiter="\t", quoting=0)
 
 if vector_type == "Word2vec":

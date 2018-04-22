@@ -1,4 +1,5 @@
 import datetime
+import time
 
 import keras
 import numpy as np
@@ -13,9 +14,11 @@ from keras.optimizers import SGD
 from keras.preprocessing import sequence
 from keras.preprocessing.text import Tokenizer
 
+
+current_time = time.time()
 seed = 19960214
 np.random.seed(seed)
-TRAIN_DATA_FILE = 'train_cleaned.tsv'
+TRAIN_DATA_FILE = 'train_mapped.tsv'
 TEST_DATA_FILE = 'test.tsv'
 
 
@@ -152,3 +155,5 @@ print('LSTM_model_eta_' +
       str(datetime.datetime.now().strftime("%Y_%m_%d_%H_%M")))
 
 print("Accuracy: %.2f%%" % (scores[1] * 100))
+
+print('Time to Train and Test: ' + str(time.time() - current_time) + 's')
