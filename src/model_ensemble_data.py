@@ -24,3 +24,5 @@ else:
 # Download nltk data
 nltk.download("wordnet")
 nltk.download("punkt")
+
+print('Start 10-Fold Training... It takes a long time...')

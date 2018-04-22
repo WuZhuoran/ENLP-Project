@@ -15,49 +15,50 @@ pip install -r requirement.txt
 
 For Windows, please see [documentation](http://xgboost.readthedocs.io/en/latest/build.html#building-on-windows) about how to install `XGBoost` on Windows.
 
-Requires `Python 3.5` or higher.
+Requires `Python 3.5` and `pip 10.0.1` or higher.
 
 ## Usage
 
-Run Everything - Estimated Running Time:``
+Run Everything - Estimated Running Time: `23m 23.796s`
 ```bash
+cd src
 sh run.sh
 ```
 
 Run Data Analysis - Estimated Running Time: `220.78s`
 ```bash
-python src/data_analysis.py
+python data_analysis.py
 ```
 
 Run Majority Baseline Model - Estimated Running Time: `0.066s`
 ```bash
-python src/model_majority.py
+python model_majority.py
 ```
 
 Run TextBlob Baseline Model - Estimated Running Time: `14.06s`
 ```bash
-python src/model_xgboost.py
+python model_xgboost.py
 ```
 
 Run Naive Bayes Model - Estimated Running Time: `2.20s`
 ```bash
-python src/model_naive_bayes.py
+python model_naive_bayes.py
 ```
 
 Run SVM Model - Estimated Running Time: `80.70s`+
 ```bash
-python src/model_svm.py
+python model_svm.py
 ```
 
 Run RNN-LSTM Model
 ```bash
-python src/model_lstm.py
+python model_lstm.py
 ```
 
 Run Multiclass Model - Estimated Running Time: `645.58s`+
 ```bash
-python src/model_ensemble_data.py
-python src/model_ensemble.py
+python model_ensemble_data.py
+python model_ensemble.py
 ```
 
 ## Report
