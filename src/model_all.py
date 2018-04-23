@@ -32,8 +32,8 @@ write_to_csv = False
 # {"TFIDF", "Int", "Binary"}: Bag-of-words model with {tf-idf, word counts, presence/absence} representation
 # {"Word2vec", "Word2vec_pretrained"}: Google word2vec representation {without, with} pre-trained models
 # Specify model_name if there's a pre-trained model to be loaded
-vector_type = "TFIDF"
-model_name = "GoogleNews-vectors-negative300.bin"
+vector_type = "Word2vec_pretrained"
+model_name = "../data/GoogleNews-vectors-negative300.bin"
 
 # model_type = {"bin", "reg"}
 # Specify whether pre-trained word2vec model is binary
