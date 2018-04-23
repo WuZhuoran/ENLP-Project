@@ -347,7 +347,7 @@ if scaling != "no":
     print(
         "Scaling vectors")
     train_vec = scaler.fit_transform(train_vec)
-    # test_vec = scaler.transform(test_vec)
+    test_vec = scaler.transform(test_vec)
 
 # Model training
 if training_model == "RF" or training_model == "BT":
