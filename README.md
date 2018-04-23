@@ -72,9 +72,9 @@ python model_ensemble.py
 
 ## Authors
 
-* [@Mitchell Abrams](@mjabrams) [mja248@georgetown.edu](mailto:mja248@georgetown.edu)
-* [@Shaobo Wang](@sw1001) [sw1001@georgetown.edu](mailto:sw1001@georgetown.edu)
-* [@Zhuoran Wu](@WuZhuoran) [zw118@georgetown.edu](mailto:zw118@georgetown.edu)
+* [@Mitchell Abrams](https://github.com/mjabrams) <[mja248@georgetown.edu](mailto:mja248@georgetown.edu)>
+* [@Shaobo Wang](https://github.com/sw1001) <[sw1001@georgetown.edu](mailto:sw1001@georgetown.edu)>
+* [@Zhuoran Wu](https://github.com/WuZhuoran) <[zw118@georgetown.edu](mailto:zw118@georgetown.edu)>
 
 ## Acknowledge
 
