@@ -32,7 +32,7 @@ write_to_csv = False
 # {"TFIDF", "Int", "Binary"}: Bag-of-words model with {tf-idf, word counts, presence/absence} representation
 # {"Word2vec", "Word2vec_pretrained"}: Google word2vec representation {without, with} pre-trained models
 # Specify model_name if there's a pre-trained model to be loaded
-vector_type = "Word2vec_pretrained"
+vector_type = "TFIDF"
 model_name = "../data/GoogleNews-vectors-negative300.bin"
 
 # model_type = {"bin", "reg"}
@@ -48,7 +48,7 @@ context = 10  # Context window size
 downsampling = 1e-3  # Downsample setting for frequent words
 
 # training_model = {"RF", "NB", "SVM", "BT", "no"}
-training_model = "NB"
+training_model = "RF"
 
 # feature scaling = {"standard", "signed", "unsigned", "no"}
 # Note: Scaling is needed for SVM
