@@ -6,7 +6,7 @@ import numpy as np
 import pandas as pd
 from keras.callbacks import ModelCheckpoint, ReduceLROnPlateau, EarlyStopping
 from keras.constraints import maxnorm
-from keras.layers import Embedding
+from keras.layers import Embedding, Bidirectional
 from keras.layers.core import Dense, Dropout
 from keras.layers.recurrent import LSTM
 from keras.models import Sequential
@@ -95,6 +95,7 @@ model.add(Embedding(maxDictionary_size, 32, input_length=maxWordCount))  # to ch
 # model.add(Conv1D(filters=32, kernel_size=2, padding='same', activation='relu'))
 # model.add(MaxPooling1D(pool_size=2))
 # hidden layers
+# model.add(Bidirectional(LSTM(10)))
 model.add(LSTM(10))
 # model.add(Flatten())
 model.add(Dropout(0.6))
