@@ -8,7 +8,7 @@ import numpy as np
 import pandas as pd
 import sklearn
 from bs4 import BeautifulSoup
-from gensim.models import word2vec
+from gensim.models import KeyedVectors, word2vec
 from nltk.corpus import stopwords
 from sklearn import metrics
 from sklearn import naive_bayes, svm, preprocessing
@@ -271,9 +271,9 @@ if vector_type == "Word2vec_pretrained" or vector_type == "Word2vec":
         print(
             "Loading the pre-trained model")
         if model_type == "bin":
-            model = word2vec.Word2Vec.load_word2vec_format(model_name, binary=True)
+            model = KeyedVectors.load_word2vec_format(model_name, binary=True)
         else:
-            model = word2vec.Word2Vec.load(model_name)
+            model = KeyedVectors.load(model_name)
 
     if vector_type == "Word2vec":
         print(
