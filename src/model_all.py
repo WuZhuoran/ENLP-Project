@@ -20,7 +20,7 @@ from sklearn.metrics import classification_report
 from sklearn.model_selection import GridSearchCV
 from sklearn.model_selection import cross_val_score
 
-##################### Initialization #####################
+# #################### Initialization #####################
 
 current_time = time.time()
 
@@ -48,7 +48,7 @@ context = 10  # Context window size
 downsampling = 1e-3  # Downsample setting for frequent words
 
 # training_model = {"RF", "NB", "SVM", "BT", "no"}
-training_model = "RF"
+training_model = "BT"
 
 # feature scaling = {"standard", "signed", "unsigned", "no"}
 # Note: Scaling is needed for SVM
@@ -62,10 +62,10 @@ dim_reduce = "chi2"
 num_dim = 500
 
 
-##################### End of Initialization #####################
+# #################### End of Initialization #####################
 
 
-##################### Function Definition #####################
+# #################### Function Definition #####################
 
 def clean_review(raw_review, remove_stopwords=False, output_format="string"):
     """
@@ -220,6 +220,8 @@ if vector_type == "Word2vec":
     logging.basicConfig(format='%(asctime)s: %(message)s', level=logging.INFO)
 
 # Extract words from reviews
+print('Start Extract Words from Reviews...')
+
 # xrange is faster when iterating
 if vector_type == "Word2vec" or vector_type == "Word2vec_pretrained":
 
@@ -278,8 +280,8 @@ if vector_type == "Word2vec_pretrained" or vector_type == "Word2vec":
     if vector_type == "Word2vec":
         print(
             "Training word2vec word vectors")
-        model = word2vec.Word2Vec(word2vec_input, workers=num_workers, \
-                                  size=num_features, min_count=min_word_count, \
+        model = word2vec.Word2Vec(word2vec_input, workers=num_workers,
+                                  size=num_features, min_count=min_word_count,
                                   window=context, sample=downsampling)
 
         # If no further training and only query is needed, this trims unnecessary memory
@@ -302,7 +304,7 @@ elif vector_type != "no":
         count_vec = TfidfVectorizer(analyzer="word", ngram_range=(1, 2), sublinear_tf=True)
 
     elif vector_type == "Binary" or vector_type == "Int":
-        count_vec = CountVectorizer(analyzer="word", binary=(vector_type == "Binary"), \
+        count_vec = CountVectorizer(analyzer="word", binary=(vector_type == "Binary"),
                                     ngram_range=(1, 2))
 
     # Return a scipy sparse term-document matrix
@@ -311,7 +313,9 @@ elif vector_type != "no":
     train_vec = count_vec.fit_transform(train_list)
     test_vec = count_vec.transform(test_list)
 
-# Dimemsion Reduction
+# Dimension Reduction
+print("Start Dimension Reduction...")
+
 if dim_reduce == "SVD":
     print(
         "Performing dimension reduction")
@@ -350,10 +354,12 @@ if scaling != "no":
     test_vec = scaler.transform(test_vec)
 
 # Model training
+print('Start Training...')
+
 if training_model == "RF" or training_model == "BT":
 
     # Initialize the Random Forest or bagged tree based the model chosen
-    rfc = RFC(n_estimators=100, oob_score=True, \
+    rfc = RFC(n_estimators=100, oob_score=True,
               max_features=(None if training_model == "BT" else "auto"))
     print(
         "Training %s" % ("Random Forest" if training_model == "RF" else "bagged tree"))
@@ -384,7 +390,21 @@ elif training_model == "NB":
     print(
         "CV Score = ", cv_score.mean())
     nb = nb.fit(train_vec, train_data_y)
-    # pred = nb.predict(test_vec)
+    pred = nb.predict(test_vec)
+
+    print(
+        'Precision = ' + str(metrics.precision_score(test_data_y, pred, average=None)))
+    print(
+        'Recall = ' + str(metrics.recall_score(test_data_y, pred, average=None)))
+    print(
+        'F1 = ' + str(metrics.f1_score(test_data_y, pred, average=None)))
+    print(
+        'Accuracy = %.2f%%' % (metrics.accuracy_score(test_data_y, pred) * 100.0))
+    print(
+        'Confusion matrix =  \n' + str(
+            metrics.confusion_matrix(test_data_y, pred, labels=[0, 1, 2])))
+    print('\nClassification Report:\n' + classification_report(test_data_y, pred,
+                                                               target_names=target_names))
 
 elif training_model == "SVM":
     svc = svm.LinearSVC()
@@ -393,11 +413,25 @@ elif training_model == "SVM":
         "Training SVM")
     svc = GridSearchCV(svc, param, cv=10)
     svc = svc.fit(train_vec, train_data_y)
-    # pred = svc.predict(test_vec)
+    pred = svc.predict(test_vec)
     print(
         "Optimized parameters:", svc.best_estimator_)
     print(
         "Best CV score:", svc.best_score_)
+
+    print(
+        'Precision = ' + str(metrics.precision_score(test_data_y, pred, average=None)))
+    print(
+        'Recall = ' + str(metrics.recall_score(test_data_y, pred, average=None)))
+    print(
+        'F1 = ' + str(metrics.f1_score(test_data_y, pred, average=None)))
+    print(
+        'Accuracy = %.2f%%' % (metrics.accuracy_score(test_data_y, pred) * 100.0))
+    print(
+        'Confusion matrix =  \n' + str(
+            metrics.confusion_matrix(test_data_y, pred, labels=[0, 1, 2])))
+    print('\nClassification Report:\n' + classification_report(test_data_y, pred,
+                                                               target_names=target_names))
 
 # Output the results
 if write_to_csv:
