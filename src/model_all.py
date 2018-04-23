@@ -48,7 +48,7 @@ context = 10  # Context window size
 downsampling = 1e-3  # Downsample setting for frequent words
 
 # training_model = {"RF", "NB", "SVM", "BT", "no"}
-training_model = "BT"
+training_model = "NB"
 
 # feature scaling = {"standard", "signed", "unsigned", "no"}
 # Note: Scaling is needed for SVM
