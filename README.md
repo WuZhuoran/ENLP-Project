@@ -19,7 +19,7 @@ Requires `Python 3.5` and `pip 10.0.1` or higher.
 
 ## Usage
 
-Run Everything - Estimated Running Time: `23m 23.796s`
+Run Everything - Estimated Running Time: `32m 50.436s`
 ```bash
 cd src
 sh run.sh
@@ -45,12 +45,17 @@ Run Naive Bayes Model - Estimated Running Time: `2.20s`
 python model_naive_bayes.py
 ```
 
+Run Random Forest Model - Estimated Running Time: `566.64s`
+```bash
+python model_all.py
+```
+
 Run SVM Model - Estimated Running Time: `80.70s`+
 ```bash
 python model_svm.py
 ```
 
-Run RNN-LSTM Model
+Run RNN-LSTM Model - Estimated Running Time: `400.96s`
 ```bash
 python model_lstm.py
 ```

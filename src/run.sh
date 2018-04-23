@@ -33,9 +33,14 @@ echo '***************************************'
 python model_naive_bayes.py
 
 echo '***************************************'
-echo 'Now Running Support Vector Machine Model'
+echo 'Now Running Support Vector Machine.....'
 echo '***************************************'
 python model_svm.py
+
+echo '***************************************'
+echo 'Now Running Random Forest Model........'
+echo '***************************************'
+python model_all.py
 
 echo '***************************************'
 echo 'Now Running RNN-LSTM Model.............'

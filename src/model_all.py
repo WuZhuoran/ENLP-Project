@@ -1,26 +1,31 @@
 import logging
 import re
+import time
 import warnings
-
-warnings.simplefilter("ignore", UserWarning)
-warnings.simplefilter("ignore", FutureWarning)
 
 import nltk.data
 import numpy as np
 import pandas as pd
+import sklearn
 from bs4 import BeautifulSoup
 from gensim.models import word2vec
 from nltk.corpus import stopwords
+from sklearn import metrics
 from sklearn import naive_bayes, svm, preprocessing
 from sklearn.decomposition import TruncatedSVD
 from sklearn.ensemble import RandomForestClassifier as RFC
 from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
 from sklearn.feature_selection.univariate_selection import chi2, SelectKBest
+from sklearn.metrics import classification_report
 from sklearn.model_selection import GridSearchCV
 from sklearn.model_selection import cross_val_score
 
 ##################### Initialization #####################
 
+current_time = time.time()
+
+warnings.simplefilter("ignore", UserWarning)
+warnings.simplefilter("ignore", FutureWarning)
 write_to_csv = False
 
 # term_vector_type = {"TFIDF", "Binary", "Int", "Word2vec", "Word2vec_pretrained"}
@@ -51,7 +56,8 @@ scaling = "no"
 
 # dimension reduction = {"SVD", "chi2", "no"}
 # Note: For NB models, we cannot perform truncated SVD as it will make input negative
-# chi2 is the feature selectioin based on chi2 independence test
+# chi2 is the feature selection based on chi2 independence test
+# https://nlp.stanford.edu/IR-book/html/htmledition/feature-selectionchi2-feature-selection-1.html
 dim_reduce = "chi2"
 num_dim = 500
 
@@ -187,13 +193,26 @@ def gen_review_vecs(reviews, model, num_features):
 
 # ########################## Main Program ###########################
 
+test_size = 0.2
 train_list = []
 test_list = []
 word2vec_input = []
 pred = []
+cols = ['PhraseId', 'SentenceId', 'Phrase']
+target_names = ['0', '1', '2']
 
 train_data = pd.read_csv("../data/train_mapped.tsv", header=0, delimiter="\t", quoting=0)
 test_data = pd.read_csv("../data/test.tsv", header=0, delimiter="\t", quoting=0)
+
+train_data, test_data, train_data_y, test_data_y = sklearn.model_selection.train_test_split(train_data[cols],
+                                                                                            train_data['Sentiment'],
+                                                                                            test_size=test_size,
+                                                                                            random_state=19960214)
+
+train_data = train_data.reset_index()
+train_data = train_data.drop(['index'], axis=1)
+test_data = test_data.reset_index()
+test_data = test_data.drop(['index'], axis=1)
 
 if vector_type == "Word2vec":
     unlab_train_data = pd.read_csv("../data/train_extract.tsv", header=0, delimiter="\t", quoting=3)
@@ -221,13 +240,13 @@ if vector_type == "Word2vec" or vector_type == "Word2vec_pretrained":
             if i % 1000 == 0:
                 print(
                     "Cleaning unlabeled training review", i)
-    '''
-    for i in range(0, len(test_data.review)):
+
+    for i in range(0, len(test_data.Phrase)):
         test_list.append(clean_review(test_data.Phrase[i], output_format="list"))
         if i % 1000 == 0:
             print(
                 "Cleaning test review", i)
-    '''
+
 elif vector_type != "no":
     for i in range(0, len(train_data.Phrase)):
 
@@ -236,7 +255,7 @@ elif vector_type != "no":
         if i % 1000 == 0:
             print(
                 "Cleaning training review", i)
-    '''
+
     for i in range(0, len(test_data.Phrase)):
 
         # Append raw texts rather than lists as Count/TFIDF vectorizers take raw texts as inputs
@@ -244,7 +263,7 @@ elif vector_type != "no":
         if i % 1000 == 0:
             print(
                 "Cleaning test review", i)
-    '''
+
 # Generate vectors from words
 if vector_type == "Word2vec_pretrained" or vector_type == "Word2vec":
 
@@ -290,7 +309,7 @@ elif vector_type != "no":
     print(
         "Vectorizing input texts")
     train_vec = count_vec.fit_transform(train_list)
-    # test_vec = count_vec.transform(test_list)
+    test_vec = count_vec.transform(test_list)
 
 # Dimemsion Reduction
 if dim_reduce == "SVD":
@@ -298,7 +317,7 @@ if dim_reduce == "SVD":
         "Performing dimension reduction")
     svd = TruncatedSVD(n_components=num_dim)
     train_vec = svd.fit_transform(train_vec)
-    # test_vec = svd.transform(test_vec)
+    test_vec = svd.transform(test_vec)
     print(
         "Explained variance ratio =", svd.explained_variance_ratio_.sum())
 
@@ -306,13 +325,13 @@ elif dim_reduce == "chi2":
     print(
         "Performing feature selection based on chi2 independence test")
     fselect = SelectKBest(chi2, k=num_dim)
-    train_vec = fselect.fit_transform(train_vec, train_data.Sentiment)
-    # test_vec = fselect.transform(test_vec)
+    train_vec = fselect.fit_transform(train_vec, train_data_y)
+    test_vec = fselect.transform(test_vec)
 
 # Transform into numpy arrays
 if "numpy.ndarray" not in str(type(train_vec)):
     train_vec = train_vec.toarray()
-    # test_vec = test_vec.toarray()
+    test_vec = test_vec.toarray()
 
 # Feature Scaling
 if scaling != "no":
@@ -338,19 +357,33 @@ if training_model == "RF" or training_model == "BT":
               max_features=(None if training_model == "BT" else "auto"))
     print(
         "Training %s" % ("Random Forest" if training_model == "RF" else "bagged tree"))
-    rfc = rfc.fit(train_vec, train_data.Sentiment)
+    rfc = rfc.fit(train_vec, train_data_y)
     print(
         "OOB Score =", rfc.oob_score_)
-    # pred = rfc.predict(test_vec)
+    pred = rfc.predict(test_vec)
+
+    print(
+        'Precision = ' + str(metrics.precision_score(test_data_y, pred, average=None)))
+    print(
+        'Recall = ' + str(metrics.recall_score(test_data_y, pred, average=None)))
+    print(
+        'F1 = ' + str(metrics.f1_score(test_data_y, pred, average=None)))
+    print(
+        'Accuracy = %.2f%%' % (metrics.accuracy_score(test_data_y, pred) * 100.0))
+    print(
+        'Confusion matrix =  \n' + str(
+            metrics.confusion_matrix(test_data_y, pred, labels=[0, 1, 2])))
+    print('\nClassification Report:\n' + classification_report(test_data_y, pred,
+                                                               target_names=target_names))
 
 elif training_model == "NB":
     nb = naive_bayes.MultinomialNB()
-    cv_score = cross_val_score(nb, train_vec, train_data.Sentiment, cv=10)
+    cv_score = cross_val_score(nb, train_vec, train_data_y, cv=10)
     print(
         "Training Naive Bayes")
     print(
         "CV Score = ", cv_score.mean())
-    nb = nb.fit(train_vec, train_data.Sentiment)
+    nb = nb.fit(train_vec, train_data_y)
     # pred = nb.predict(test_vec)
 
 elif training_model == "SVM":
@@ -359,7 +392,7 @@ elif training_model == "SVM":
     print(
         "Training SVM")
     svc = GridSearchCV(svc, param, cv=10)
-    svc = svc.fit(train_vec, train_data.Sentiment)
+    svc = svc.fit(train_vec, train_data_y)
     # pred = svc.predict(test_vec)
     print(
         "Optimized parameters:", svc.best_estimator_)
@@ -370,3 +403,5 @@ elif training_model == "SVM":
 if write_to_csv:
     output = pd.DataFrame(data={"id": test_data.id, "sentiment": pred})
     output.to_csv("submission.csv", index=False)
+
+print('Time to Train and Test: ' + str(time.time() - current_time) + 's')

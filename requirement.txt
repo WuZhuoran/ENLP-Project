@@ -9,3 +9,4 @@ sklearn
 keras
 textblob
 xgboost
+wordcloud
