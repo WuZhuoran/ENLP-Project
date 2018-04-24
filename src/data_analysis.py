@@ -24,8 +24,7 @@ def _parse(data):
 
 def _load():
     # Load datasets
-    train = pd.read_csv("../data/train.tsv", header=0, delimiter="\t", quoting=3,
-                        dtype={'Sentiment': 'category'})
+    train = pd.read_csv("../data/train.tsv", header=0, delimiter="\t", quoting=3)
     test = pd.read_csv("../data/test.tsv", header=0, delimiter="\t", quoting=3)
 
     logging.info('Train, number of phrases: %d', train["PhraseId"].size)
