@@ -10,3 +10,4 @@ keras
 textblob
 xgboost
 wordcloud
+tensorflow
