@@ -208,7 +208,8 @@ train_list = []
 test_list = []
 word2vec_input = []
 pred = []
-cols = ['PhraseId', 'SentenceId', 'Phrase']
+# cols = ['PhraseId', 'SentenceId', 'Phrase']
+cols = ['SentenceId', 'Phrase']
 target_names = ['0', '1', '2']
 
 train_data = pd.read_csv("../data/train_extract.tsv", header=0, delimiter="\t", quoting=0)
