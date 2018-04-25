@@ -382,7 +382,7 @@ elif training_model == "LSTM":
     model_1.add(Dropout(0.6))
     model_1.add(Dense(1200, activation='relu', W_constraint=maxnorm(1)))
     model_1.add(Dense(500, activation='relu', W_constraint=maxnorm(1)))
-    model_1.add(Dense(5, activation='softmax'))
+    model_1.add(Dense(1, activation='softmax'))
 
     model_1.summary()
 
