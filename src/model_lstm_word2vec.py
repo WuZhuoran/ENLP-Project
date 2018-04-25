@@ -211,7 +211,7 @@ pred = []
 cols = ['PhraseId', 'SentenceId', 'Phrase']
 target_names = ['0', '1', '2']
 
-train_data = pd.read_csv("../data/train_mapped.tsv", header=0, delimiter="\t", quoting=0)
+train_data = pd.read_csv("../data/train_extract.tsv", header=0, delimiter="\t", quoting=0)
 test_data = pd.read_csv("../data/test.tsv", header=0, delimiter="\t", quoting=0)
 
 train_data, test_data, train_data_y, test_data_y = sklearn.model_selection.train_test_split(train_data[cols],
