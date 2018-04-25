@@ -372,11 +372,11 @@ if training_model == "RF" or training_model == "BT":
                                                                target_names=target_names))
 
 elif training_model == "LSTM":
-    maxWordCount = 60
+    maxWordCount = 300
 
     model_1 = Sequential()
 
-    model_1.add(Embedding(15000, 32, input_length=maxWordCount))  # to change words to ints
+    model_1.add(Embedding(124848, 32, input_length=maxWordCount))  # to change words to ints
     model_1.add(LSTM(10))
     model_1.add(Dropout(0.6))
     model_1.add(Dense(1200, activation='relu', W_constraint=maxnorm(1)))
