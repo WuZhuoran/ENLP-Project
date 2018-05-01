@@ -1,18 +1,14 @@
 import logging
 import re
 import time
-
 import matplotlib.pyplot as plt
 import numpy as np
+# Dependecy imports
+import pandas as pd
 
 current_time = time.time()
 
-logging.basicConfig(format='%(asctime)s %(message)s',
-                    datefmt='%d/%m/%Y %H:%M:%S',
-                    level=10)
-
-# Dependecy imports
-import pandas as pd
+logging.basicConfig(format='%(asctime)s %(message)s', datefmt='%d/%m/%Y %H:%M:%S', level=10)
 
 
 def _parse(data):
@@ -77,7 +73,7 @@ not_in_train = unique_words_test.unique()[~np.in1d(unique_words_test.unique(), u
 print('Words in Test but not in Train', not_in_train.shape[0])
 print(unique_words_test[unique_words_test.isin(not_in_train)].value_counts().head(30))
 
-# Words which are in Ttra set but not in Test set
+# Words which are in Train set but not in Test set
 not_in_test = unique_words_train.unique()[~np.in1d(unique_words_train.unique(), unique_words_test.unique())]
 
 print('Words in Test but not in Train', not_in_test.shape[0])
