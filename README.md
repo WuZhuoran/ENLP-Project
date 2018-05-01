@@ -68,7 +68,7 @@ python model_ensemble.py
 
 ## Report
 
-[Final Report](https://github.com/sw1001/ENLP-Project/tree/master/report/related_work) is located at report folder.
+[Sentiment Analysis on Movie Reviews](https://github.com/sw1001/ENLP-Project/blob/master/report/ENLP%20Report%20-%20Sentiment%20Analysis%20on%20Movie%20Reviews.pdf) is located at report folder.
 
 ## Authors
 
