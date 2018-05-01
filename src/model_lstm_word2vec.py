@@ -3,23 +3,13 @@ import re
 import time
 import warnings
 
+import keras
 import nltk.data
 import numpy as np
 import pandas as pd
 import sklearn
-import keras
 from bs4 import BeautifulSoup
 from gensim.models import KeyedVectors, word2vec
-from nltk.corpus import stopwords
-from sklearn import metrics
-from sklearn import naive_bayes, svm, preprocessing
-from sklearn.decomposition import TruncatedSVD
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
-from sklearn.feature_selection.univariate_selection import chi2, SelectKBest
-from sklearn.metrics import classification_report
-from sklearn.model_selection import GridSearchCV
-from sklearn.model_selection import cross_val_score
 from keras.callbacks import ModelCheckpoint, ReduceLROnPlateau, EarlyStopping
 from keras.constraints import maxnorm
 from keras.layers import Embedding
@@ -27,9 +17,15 @@ from keras.layers.core import Dense, Dropout
 from keras.layers.recurrent import LSTM
 from keras.models import Sequential
 from keras.optimizers import SGD
-from keras.preprocessing import sequence
-from keras.preprocessing.text import Tokenizer
-
+from nltk.corpus import stopwords
+from sklearn import metrics
+from sklearn import svm, preprocessing
+from sklearn.decomposition import TruncatedSVD
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
+from sklearn.feature_selection.univariate_selection import chi2, SelectKBest
+from sklearn.metrics import classification_report
+from sklearn.model_selection import GridSearchCV
 
 # #################### Initialization #####################
 
