@@ -1,12 +1,12 @@
 import datetime
+import re
 import time
 
 import keras
-import re
 import numpy as np
 import pandas as pd
 from bs4 import BeautifulSoup
-from nltk.corpus import stopwords
+from gensim.models import KeyedVectors
 from keras.callbacks import ModelCheckpoint, ReduceLROnPlateau, EarlyStopping
 from keras.constraints import maxnorm
 from keras.layers import Embedding
@@ -16,7 +16,8 @@ from keras.models import Sequential
 from keras.optimizers import SGD
 from keras.preprocessing import sequence
 from keras.preprocessing.text import Tokenizer
-from gensim.models import KeyedVectors
+from keras.utils import plot_model
+from nltk.corpus import stopwords
 
 current_time = time.time()
 seed = 19960214
@@ -285,6 +286,8 @@ earlyStopping = EarlyStopping(monitor='val_loss', min_delta=0, patience=6, verbo
 # Loading best weights
 # model.load_weights("./weights/weights_19.hdf5")
 
+# Save the Model picture
+# plot_model(model, to_file='lstm_structure.png', show_shapes=True, show_layer_names=True)
 print("=============================== Training =========================================")
 
 history = model.fit(X_Train_encodedPadded_words, Y_train, epochs=epochs, batch_size=batch_size, verbose=1,
